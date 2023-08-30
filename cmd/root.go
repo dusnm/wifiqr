@@ -16,9 +16,12 @@ var hidden bool
 var output string
 
 var rootCmd = &cobra.Command{
-	Use:   "wifiqr",
-	Short: "This program helps you generate QR codes to connect to WiFi networks",
-	Long:  ``,
+	Use:     "wifiqr",
+	Version: "1.0.0",
+	Short:   "This program helps you generate QR codes to connect to WiFi networks",
+	Long: `Copyright (C) 2023 Dušan Mitrović <dusan@dusanmitrovic.xyz>
+Licensed under the terms of the GNU GPL v3 only
+    `,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		wf, err := wifi.New(
 			security,
