@@ -15,5 +15,5 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/yeqown/go-qrcode/writer/standard v1.2.1 // indirect
 	github.com/yeqown/reedsolomon v1.0.0 // indirect
-	golang.org/x/image v0.0.0-20200927104501-e162460cd6b5 // indirect
+	golang.org/x/image v0.11.0 // indirect
 )

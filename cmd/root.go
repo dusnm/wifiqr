@@ -41,14 +41,26 @@ Licensed under the terms of the GNU GPL v3 only
 			}
 		}
 
-		f, err := os.OpenFile(output, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0o644)
+		f, err := os.OpenFile(output, os.O_CREATE|os.O_RDWR|os.O_TRUNC, 0o644)
 		if err != nil {
 			return err
 		}
 
-		err = qr.Generate(wf, f)
+		defer f.Close()
 
-		return nil
+		b, err := qr.Generate(wf)
+		if err != nil {
+			return err
+		}
+
+		err = qr.AddHeader(wf.SSID, b, f)
+		if err != nil {
+			return err
+		}
+
+		_, err = f.Write(b)
+
+		return err
 	},
 }
 
