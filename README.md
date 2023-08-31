@@ -6,6 +6,8 @@
 
 A simple program to generate a QR code to connect to a WiFi network
 
+<img src="https://github.com/dusnm/wifiqr/blob/main/res/example.png?raw=true" height="320" width="300" alt="Example QR code">
+
 ## Usage
 To get a list of all the available flags run `wifiqr --help` or `wifiqr -h`
 ```
