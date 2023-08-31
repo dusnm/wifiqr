@@ -21,7 +21,7 @@ func Generate(data fmt.Stringer, wr io.WriteCloser) error {
 
 	w := standard.NewWithWriter(
 		wr,
-		standard.WithQRWidth(40),
+		standard.WithBorderWidth(80),
 		standard.WithBuiltinImageEncoder(standard.PNG_FORMAT),
 	)
 
