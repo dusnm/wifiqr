@@ -17,7 +17,7 @@ var output string
 
 var rootCmd = &cobra.Command{
 	Use:     "wifiqr",
-	Version: "1.0.0",
+	Version: "1.1.0",
 	Short:   "This program helps you generate QR codes to connect to WiFi networks",
 	Long: `Copyright (C) 2023 Dušan Mitrović <dusan@dusanmitrovic.xyz>
 Licensed under the terms of the GNU GPL v3 only
@@ -53,14 +53,7 @@ Licensed under the terms of the GNU GPL v3 only
 			return err
 		}
 
-		err = qr.AddHeader(wf.SSID, b, f)
-		if err != nil {
-			return err
-		}
-
-		_, err = f.Write(b)
-
-		return err
+		return qr.AddHeader(wf.SSID, b, f)
 	},
 }
 
