@@ -44,6 +44,23 @@ Or with long options
 wifiqr --name Test_Network --security WPA -p test --output ./your_file_name.png
 ```
 
+## Installation
+You can use the precompiled binaries for your operating system and cpu architecture in the [release](https://github.com/dusnm/wifiqr/releases/latest) section.
+Make sure you put the binary somewhere in your `$PATH`
+
+For those using Arch Linux, a PKGBUILD is available in the AUR. Use either `makepkg` directly or your favorite AUR helper.
+
+### Example
+* makepkg
+```shell
+git clone https://aur.archlinux.org/wifiqr.git && cd wifiqr
+makepkg -si
+```
+* yay
+```shell
+yay -S wifiqr
+```
+
 ## Building from source
 Ensure that you have a recent version of go installed
 
