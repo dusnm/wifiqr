@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/dusnm/wifiqr/pkg/qr"
+	"github.com/dusnm/wifiqr/pkg/utils"
 	"github.com/dusnm/wifiqr/pkg/wifi"
 	"github.com/spf13/cobra"
 )
@@ -14,15 +15,23 @@ var ssid string
 var password string
 var hidden bool
 var output string
+var titleColor string
+var logoPath string
+var noLogo bool
 
 var rootCmd = &cobra.Command{
 	Use:     "wifiqr",
-	Version: "1.1.0",
+	Version: "1.2.0",
 	Short:   "This program helps you generate QR codes to connect to WiFi networks",
 	Long: `Copyright (C) 2023 Dušan Mitrović <dusan@dusanmitrovic.xyz>
 Licensed under the terms of the GNU GPL v3 only
     `,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		c, err := utils.ParseHexColor(titleColor)
+		if err != nil {
+			return err
+		}
+
 		wf, err := wifi.New(
 			security,
 			ssid,
@@ -41,6 +50,13 @@ Licensed under the terms of the GNU GPL v3 only
 			}
 		}
 
+		if !noLogo && logoPath != "" && !filepath.IsAbs(logoPath) {
+			logoPath, err = filepath.Abs(logoPath)
+			if err != nil {
+				return err
+			}
+		}
+
 		f, err := os.OpenFile(output, os.O_CREATE|os.O_RDWR|os.O_TRUNC, 0o644)
 		if err != nil {
 			return err
@@ -48,12 +64,20 @@ Licensed under the terms of the GNU GPL v3 only
 
 		defer f.Close()
 
-		b, err := qr.Generate(wf)
+		b, err := qr.Generate(wf, noLogo, logoPath)
 		if err != nil {
+			_ = os.Remove(output)
+
 			return err
 		}
 
-		return qr.AddHeader(wf.SSID, b, f)
+		if err = qr.AddHeader(wf.SSID, b, f, c); err != nil {
+			_ = os.Remove(output)
+
+			return err
+		}
+
+		return nil
 	},
 }
 
@@ -87,7 +111,7 @@ func Execute() {
 		"invisible",
 		"i",
 		false,
-		"The visibility of your WiFi network. Set this to true if your WiFi is hidden.",
+		"The visibility of your WiFi network. Use this switch if your WiFi is hidden.",
 	)
 
 	rootCmd.Flags().StringVarP(
@@ -99,6 +123,30 @@ func Execute() {
 			return filepath.Join(d, "qr.png")
 		}(),
 		"The output filename. Default is in the current directory.",
+	)
+
+	rootCmd.Flags().StringVarP(
+		&titleColor,
+		"color",
+		"c",
+		"8178e4",
+		"The color of the text in the frame. Accepts 3 or 6 hex characters.",
+	)
+
+	rootCmd.Flags().StringVarP(
+		&logoPath,
+		"logo",
+		"l",
+		"",
+		"The path to a raster image logo that will be put in the center of the QR code. Max dimensions: 140x140.",
+	)
+
+	rootCmd.Flags().BoolVarP(
+		&noLogo,
+		"no-logo",
+		"x",
+		false,
+		"Use this switch if you don't want a logo in the center. Takes precedence over the -l and --logo options.",
 	)
 
 	rootCmd.MarkFlagRequired("name")

@@ -25,15 +25,9 @@ func AddHeader(
 	title string,
 	imageBytes []byte,
 	wr io.WriteCloser,
+	titleColor color.RGBA,
 ) error {
-	fg := image.NewUniform(
-		color.RGBA{
-			0x81,
-			0x78,
-			0xe4,
-			0xff,
-		},
-	)
+	fg := image.NewUniform(titleColor)
 
 	fontBytes, err := resources.ReadFile("res/font.ttf")
 	if err != nil {

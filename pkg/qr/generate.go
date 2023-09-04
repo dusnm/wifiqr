@@ -6,6 +6,7 @@ import (
 	"image"
 	"io"
 
+	"github.com/dusnm/wifiqr/pkg/utils"
 	"github.com/yeqown/go-qrcode/v2"
 	"github.com/yeqown/go-qrcode/writer/standard"
 )
@@ -20,25 +21,35 @@ func (nopCloser) Close() error {
 	return nil
 }
 
-func Generate(data fmt.Stringer) ([]byte, error) {
+func Generate(
+	data fmt.Stringer,
+	noLogo bool,
+	logoPath string,
+) ([]byte, error) {
 	qcode, err := qrcode.NewWith(
 		data.String(),
 		qrcode.WithEncodingMode(qrcode.EncModeByte),
 		qrcode.WithErrorCorrectionLevel(qrcode.ErrorCorrectionHighest),
 	)
 
-	if err != nil {
-		return nil, err
-	}
+	var logo image.Image
+	if !noLogo {
+		if logoPath != "" {
+			logo, err = utils.MakeLogoFromPath(logoPath)
+			if err != nil {
+				return nil, err
+			}
+		} else {
+			logof, err := resources.Open("res/logo.png")
+			if err != nil {
+				return nil, err
+			}
 
-	logof, err := resources.ReadFile("res/logo.png")
-	if err != nil {
-		return nil, err
-	}
-
-	logo, _, err := image.Decode(bytes.NewReader(logof))
-	if err != nil {
-		return nil, err
+			logo, _, err = image.Decode(logof)
+			if err != nil {
+				return nil, err
+			}
+		}
 	}
 
 	b := bytes.NewBuffer(nil)

@@ -18,10 +18,13 @@ Usage:
   wifiqr [flags]
 
 Flags:
+  -c, --color string      The color of the text in the frame. Accepts 3 or 6 hex characters. (default "8178e4")
   -h, --help              help for wifiqr
-  -i, --invisible         The visibility of your WiFi network. Set this to true if your WiFi is hidden.
+  -i, --invisible         The visibility of your WiFi network. Use this switch if your WiFi is hidden.
+  -l, --logo string       The path to a raster image logo that will be put in the center of the QR code. Max dimensions: 140x140.
   -n, --name string       The name of your WiFi network.
-  -o, --output string     The output filename. Default is in the current directory. (default "/home/dusan/qr.png")
+  -x, --no-logo           Use this switch if you don't want a logo in the center. Takes precedence over the -l and --logo options.
+  -o, --output string     The output filename. Default is in the current directory. (default "/home/dusan/Projects/personal/wifiqr/qr.png")
   -p, --password string   The password of your wifi network.
   -s, --security string   The security of your WiFi network. Can be one of nopass, WEP, WPA. (default "nopass")
   -v, --version           version for wifiqr
