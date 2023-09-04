@@ -1,7 +1,7 @@
 # wifiqr
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-![semver](https://img.shields.io/badge/semver-1.1.0-blue)
+![semver](https://img.shields.io/badge/semver-1.2.0-blue)
 [![Go Report Card](https://goreportcard.com/badge/github.com/dusnm/wifiqr)](https://goreportcard.com/report/github.com/dusnm/wifiqr)
 
 A simple program to generate a QR code to connect to a WiFi network
