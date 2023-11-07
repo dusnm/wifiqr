@@ -1,0 +1,27 @@
+version: '3'
+vars:
+  BUILD_FLAGS: CGO_ENABLED=0 go build -a -ldflags '-extldflags "-static"' -o
+tasks:
+  build-linux:
+    cmds:
+      - "GOOS=linux GOARCH=amd64 {{.BUILD_FLAGS }} bin/wifiqr-linux-amd64"
+      - "GOOS=linux GOARCH=arm64 {{.BUILD_FLAGS }} bin/wifiqr-linux-arm64"
+  build-macos:
+    cmds:
+      - "GOOS=darwin GOARCH=amd64 {{.BUILD_FLAGS }} bin/wifiqr-darwin-amd64"
+      - "GOOS=darwin GOARCH=arm64 {{.BUILD_FLAGS }} bin/wifiqr-darwin-arm64"
+  build-windows:
+    cmds:
+      - "GOOS=windows GOARCH=amd64 {{.BUILD_FLAGS }} bin/wifiqr-windows-amd64.exe"
+      - "GOOS=windows GOARCH=arm64 {{.BUILD_FLAGS }} bin/wifiqr-windows-arm64.exe"
+  build:
+    cmds:
+    - for: [linux, macos, windows]
+      task: build-{{.ITEM}}
+  fmt:
+    cmds:
+      - gofumpt -l -w .
+      - gci write --skip-generated --skip-vendor -s standard -s default .
+  test:
+    cmds:
+      - go test -race ./...

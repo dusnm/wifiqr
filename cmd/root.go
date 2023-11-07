@@ -11,14 +11,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var security string
-var ssid string
-var password string
-var hidden bool
-var output string
-var titleColor string
-var logoPath string
-var noLogo bool
+var (
+	security   string
+	ssid       string
+	password   string
+	hidden     bool
+	output     string
+	titleColor string
+	logoPath   string
+	noLogo     bool
+)
 
 var rootCmd = &cobra.Command{
 	Use:     "wifiqr",
@@ -39,7 +41,6 @@ Licensed under the terms of the GNU GPL v3 only
 			password,
 			hidden,
 		)
-
 		if err != nil {
 			return err
 		}

@@ -78,7 +78,6 @@ func escapeHexString(input string) string {
 	builder.WriteRune('"')
 
 	return builder.String()
-
 }
 
 func escapeSpecialCharacters(input string) string {
