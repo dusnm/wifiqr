@@ -3,6 +3,7 @@ package cmd
 import (
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/dusnm/wifiqr/pkg/qr"
 	"github.com/dusnm/wifiqr/pkg/utils"
@@ -21,7 +22,7 @@ var noLogo bool
 
 var rootCmd = &cobra.Command{
 	Use:     "wifiqr",
-	Version: "1.2.0",
+	Version: "1.2.1",
 	Short:   "This program helps you generate QR codes to connect to WiFi networks",
 	Long: `Copyright (C) 2023 Dušan Mitrović <dusan@dusanmitrovic.xyz>
 Licensed under the terms of the GNU GPL v3 only
@@ -71,7 +72,13 @@ Licensed under the terms of the GNU GPL v3 only
 			return err
 		}
 
-		if err = qr.AddHeader(wf.SSID, b, f, c); err != nil {
+		// removes the escape characters from the generated image
+		replacer := strings.NewReplacer(
+			"\\", "",
+			"\"", "",
+		)
+
+		if err = qr.AddHeader(replacer.Replace(wf.SSID), b, f, c); err != nil {
 			_ = os.Remove(output)
 
 			return err
