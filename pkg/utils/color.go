@@ -9,20 +9,19 @@ import (
 
 func ParseHexColor(hexColor string) (color.RGBA, error) {
 	hexColor = strings.ToLower(hexColor)
-
 	length := len(hexColor)
 	if length != 3 && length != 6 {
 		return color.RGBA{}, fmt.Errorf("invalid length for hex color: 3 or 6 characters required")
 	}
 
 	if length == 3 {
-		runes := make([]rune, 0, 6)
+		builder := strings.Builder{}
 		for _, c := range hexColor {
-			runes = append(runes, c)
-			runes = append(runes, c)
+			builder.WriteRune(c)
+			builder.WriteRune(c)
 		}
 
-		hexColor = string(runes)
+		hexColor = builder.String()
 	}
 
 	decoded, err := hex.DecodeString(hexColor)
