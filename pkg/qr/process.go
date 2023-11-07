@@ -9,6 +9,7 @@ import (
 	"image/png"
 	"io"
 	"math"
+	"strings"
 
 	"github.com/golang/freetype"
 	"github.com/golang/freetype/truetype"
@@ -71,6 +72,10 @@ func AddHeader(
 			},
 		),
 	}
+
+	// The escape sequence is only required when actually encoding the QR code data
+	// but looks quite ugly if it can be seen on the final image
+	title = strings.ReplaceAll(title, "\\", "")
 
 	d.Dot = fixed.Point26_6{
 		X: (fixed.I(imgc.Width) - d.MeasureString(title)) / 2,
