@@ -20,11 +20,12 @@ var (
 	titleColor string
 	logoPath   string
 	noLogo     bool
+	version    string
 )
 
 var rootCmd = &cobra.Command{
 	Use:     "wifiqr",
-	Version: "1.2.1",
+	Version: version,
 	Short:   "This program helps you generate QR codes to connect to WiFi networks",
 	Long: `Copyright (C) 2023 Dušan Mitrović <dusan@dusanmitrovic.xyz>
 Licensed under the terms of the GNU GPL v3 only
