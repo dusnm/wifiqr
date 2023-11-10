@@ -75,28 +75,12 @@ git clone https://github.com/dusnm/wifiqr.git && cd wifiqr
 
 Build
 ```shell
-CGO_ENABLED=0 go build -a -ldflags '-X "github.com/dusnm/wifiqr/cmd.version=1.2.2" -extldflags "-static"' -o ./bin/wifiqr .
+CGO_ENABLED=0 go build -a -ldflags '-X "github.com/dusnm/wifiqr/cmd.version={{.version}}" -extldflags "-static"' -o ./bin/wifiqr .
 ```
 
 (Optional) You can also use the `Taskfile.yml` if you happen to have `go-task` installed.
-#### Linux
 ```shell
 task build-linux
-```
-
-#### MacOS
-```shell
-task build-macos
-```
-
-#### Windows
-```shell
-task build-windows
-```
-
-#### All platforms
-```shell
-task build
 ```
 
 ## Licensing
